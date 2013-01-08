@@ -8,12 +8,6 @@ use HTTP::Response;
 
 our $VERSION = $HTTP::Tiny::VERSION;
 
-around new => sub { 
-        my $n = shift;
-        my $self = $n->(@_);
-        return bless $self;
-};
-
 around request => sub {
         my ($next, $self, @args) = @_;
         if (@args == 1 && blessed($args[0]) && $args[0]->isa('HTTP::Request')) {
