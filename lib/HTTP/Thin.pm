@@ -8,6 +8,7 @@ use parent qw(HTTP::Tiny);
 use Safe::Isa;
 use Class::Method::Modifiers;
 use HTTP::Response;
+use Hash::MultiValue;
 
 
 =method request
@@ -21,12 +22,16 @@ The return value is an L<HTTP::Response> object.
 around request => sub {
         my ($next, $self, @args) = @_;
         if (@args == 1 && $args[0]->$_isa('HTTP::Request')) {
+                my $req = shift @args;
+                my @headers;
+                $req->headers->scan(sub { push @headers, @_ });
+                        
                 my $options = {};
-                $options->{headers} = \%{ $args[0]->headers } if $args[0]->headers->as_string;
-                $options->{content} = $args[0]->content if $args[0]->content;
+                $options->{headers} = Hash::MultiValue->new(@headers)->mixed if @headers;
+                $options->{content} = $req->content if $req->content;
                 @args = ( 
-                        $args[0]->method,
-                        $args[0]->uri,
+                        $req->method,
+                        $req->uri,
                         ( keys %$options ? $options : () ),
                 );
         }
