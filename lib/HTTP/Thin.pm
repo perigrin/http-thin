@@ -48,7 +48,7 @@ __END__
     use HTTP::Request::Common
     use HTTP::Thin;
 
-    say HTTP::Thin->new(GET 'http://example.com')->as_string;
+    say HTTP::Thin->new()->request(GET 'http://example.com')->as_string;
 
 =head1 DESCRIPTION
 
