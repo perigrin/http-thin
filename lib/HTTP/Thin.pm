@@ -39,7 +39,7 @@ around request => sub {
         return HTTP::Response->new(
                 $res->{status},
                 $res->{reason},
-                [ %{ $res->{headers} } ],
+                [ Hash::MultiValue->from_mixed($res->{headers})->flatten ],
                 $res->{content},
         );
 };
