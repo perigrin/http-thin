@@ -50,7 +50,7 @@ __END__
 =head1 SYNOPSIS
 
     use 5.12.1;
-    use HTTP::Request::Common
+    use HTTP::Request::Common;
     use HTTP::Thin;
 
     say HTTP::Thin->new()->request(GET 'http://example.com')->as_string;
