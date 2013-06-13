@@ -28,7 +28,7 @@ around request => sub {
                         
                 my $options = {};
                 $options->{headers} = Hash::MultiValue->new(@headers)->mixed if @headers;
-                $options->{content} = $req->content if $req->content;
+                $options->{content} = $req->content if length($req->content);
                 @args = ( 
                         $req->method,
                         $req->uri,
