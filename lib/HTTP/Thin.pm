@@ -28,7 +28,7 @@ around request => sub {
                         
                 my $options = {};
                 $options->{headers} = Hash::MultiValue->new(@headers)->mixed if @headers;
-                $options->{content} = $req->content if $req->content;
+                $options->{content} = $req->content if length($req->content);
                 @args = ( 
                         $req->method,
                         $req->uri,
@@ -39,7 +39,7 @@ around request => sub {
         return HTTP::Response->new(
                 $res->{status},
                 $res->{reason},
-                [ %{ $res->{headers} } ],
+                [ Hash::MultiValue->from_mixed($res->{headers})->flatten ],
                 $res->{content},
         );
 };
@@ -50,7 +50,7 @@ __END__
 =head1 SYNOPSIS
 
     use 5.12.1;
-    use HTTP::Request::Common
+    use HTTP::Request::Common;
     use HTTP::Thin;
 
     say HTTP::Thin->new()->request(GET 'http://example.com')->as_string;
