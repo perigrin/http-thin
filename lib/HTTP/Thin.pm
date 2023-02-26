@@ -1,5 +1,6 @@
 package HTTP::Thin;
 
+use strict;
 use warnings;
 
 #ABSTRACT: A Thin Wrapper around HTTP::Tiny to play nice with HTTP::Message
